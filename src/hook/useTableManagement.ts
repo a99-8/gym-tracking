@@ -81,11 +81,16 @@ export default function useTableManagement() {
     ]);
   }, []);
 
+  const handleClear = useCallback(() => {
+    setTable([]);
+  }, []);
+
   return {
     table,
     isLoading, // إضافة حالة التحميل
     handleAdd, // تغيير handlAdd إلى handleAdd لتوحيد التسمية
     handleDelete,
     handleEmpty,
+    handleClear,
   };
 }

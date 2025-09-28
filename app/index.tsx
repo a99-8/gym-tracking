@@ -8,7 +8,8 @@ import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   // استدعاء الـ Hook المخصص
-  const { table, handleAdd, handleDelete, handleEmpty } = useTableManagement();
+  const { table, handleAdd, handleDelete, handleEmpty, handleClear } =
+    useTableManagement();
   const [selectedValue, setSelectedValue] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -23,7 +24,7 @@ export default function Index() {
       return;
     }
     if (table.length >= 5) {
-      handleEmpty();
+      handleClear();
     }
     handleAdd(selectedValue);
     setSelectedValue("");
