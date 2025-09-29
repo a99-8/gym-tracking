@@ -1,11 +1,11 @@
 // src/hooks/useTableManagement.ts
-import {
-  getTableDataFromStorage,
-  storeTableDataToStorage,
-} from "@/src/func/asyncStorage";
 import { handleAddLogic } from "@/src/logic/handleAdd";
 import { handleDeleteLogic } from "@/src/logic/handleDelete";
 import { handleEmptyLogic } from "@/src/logic/handleEmpty";
+import {
+  getTableDataFromStorage,
+  storeTableDataToStorage,
+} from "@/src/other/asyncStorage";
 import TableEntry from "@/src/types/tableEntry";
 import { useCallback, useEffect, useState } from "react";
 

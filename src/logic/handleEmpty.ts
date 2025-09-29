@@ -1,4 +1,4 @@
-import { clearTableDataFromStorage } from "@/src/func/asyncStorage";
+import { clearTableDataFromStorage } from "@/src/other/asyncStorage";
 import TableEntry from "@/src/types/tableEntry";
 import { Dispatch, SetStateAction } from "react";
 import { Alert } from "react-native";

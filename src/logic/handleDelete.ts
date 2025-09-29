@@ -10,9 +10,18 @@ export const handleDeleteLogic = (
     {
       text: "نعم",
       onPress: () => {
-        setTable((prevTable) =>
-          prevTable.filter((item) => item.id !== idToDelete)
-        );
+        setTable((prevTable) => {
+          const filteredTable = prevTable.filter(
+            (item) => item.id !== idToDelete
+          );
+
+          const reNumberedTable = filteredTable.map((item, index) => ({
+            ...item,
+            id: index + 1,
+          }));
+
+          return reNumberedTable;
+        });
       },
       style: "destructive",
     },

@@ -1,5 +1,7 @@
-import Header from "@/src/components/header";
-import emptyTextAfter from "@/src/func/emptyTextAfter";
+import { headerNames } from "@/src/other/constants";
+import { emptyTextAfter } from "@/src/other/functions";
+import TableProps from "@/src/types/TableProps";
+import TableEntry from "@/src/types/tableEntry";
 import React from "react";
 import {
   FlatList,
@@ -8,18 +10,36 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import TableProps from "../types/TableProps";
-import TableEntry from "../types/tableEntry";
 
 const table = ({ data, handleDelete }: TableProps) => {
-  const reversedData = [...data].reverse();
+  // 1. تصفية البيانات لإزالة أي قيم 'null' أو 'undefined' غير صالحة
+  const filteredData = data.filter(
+    (item) => item !== null && item !== undefined
+  );
+  const reversedData = [...filteredData].reverse();
+
   return (
     <View style={styles.tableContainer}>
-      <Header />
+      {/* the start of the Header */}
+      <Text style={styles.title}>إضافة جزء من الجسم لليوم</Text>
+      <View style={styles.headerRow}>
+        {headerNames.map((item, index) => (
+          <Text key={index} style={[styles.headerCell, { flex: item.flex }]}>
+            {item.name}
+          </Text>
+        ))}
+      </View>
+      {/* the end of the Header */}
+
+      {/* the start of the table body */}
       <FlatList
         data={reversedData}
         scrollEnabled={true}
-        keyExtractor={(item: TableEntry) => item.id.toString()}
+        // 2. تم إصلاح keyExtractor لضمان عدم استدعاء toString() على قيمة null
+        // نستخدم الفهرس (index) كـ مفتاح احتياطي في حال كان item.id مفقودًا.
+        keyExtractor={(item: TableEntry, index: number) =>
+          item?.id ? item.id.toString() : index.toString()
+        }
         renderItem={({ item }: { item: TableEntry }) => (
           <View style={styles.dataRow}>
             <Text
@@ -45,11 +65,31 @@ const table = ({ data, handleDelete }: TableProps) => {
           borderBottomWidth: 1,
         }}
       />
+      {/* the end of the table body */}
     </View>
   );
 };
 
+// ... (بقية الـ styles كما هي)
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  headerRow: {
+    flexDirection: "row",
+    backgroundColor: "#f0f0f0",
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 10,
+  },
+  headerCell: {
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingHorizontal: 5,
+  },
   tableContainer: {
     marginTop: 30,
     borderWidth: 1,

@@ -1,3 +1,5 @@
+import { bodyParts } from "@/src/other/constants";
+import DropdownInputProps from "@/src/types/DropdownInputProps";
 import React from "react";
 import {
   FlatList,
@@ -8,8 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import bodyParts from "../constants/bodyPart";
-import DropdownInputProps from "../types/DropdownInputProps";
 
 const DropdownInput = ({
   setModalVisible,
