@@ -1,60 +1,45 @@
-import Background from "@/src/components/backGround";
-import CustomButtom from "@/src/components/customButtom";
-import DropdownInput from "@/src/components/dropdownInput";
-import Table from "@/src/components/table";
-import useTableManagement from "@/src/hook/useTableManagement";
-import React, { useState } from "react";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import * as Components from "@/src/components";
+import useInputManagement from "@/src/hooks/useInputManagement";
+import useTableManagement from "@/src/hooks/useTableManagement";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
-  // استدعاء الـ Hook المخصص
-  const { table, handleAdd, handleDelete, handleEmpty, handleClear } =
-    useTableManagement();
-  const [selectedValue, setSelectedValue] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
+  const { table, handleAdd, handleDelete, handleEmpty } = useTableManagement();
 
-  const handleSelection = (item: string) => {
-    setSelectedValue(item);
-    setModalVisible(false);
-  };
-
-  function handleAddWrapper() {
-    if (!selectedValue) {
-      Alert.alert("تنبيه", "الرجاء اختيار جزء من الجسم أولاً.");
-      return;
-    }
-    if (table.length >= 5) {
-      handleClear();
-    }
-    handleAdd(selectedValue);
-    setSelectedValue("");
-  }
+  const {
+    selectedValue,
+    modalVisible,
+    setModalVisible,
+    handleSelection,
+    handleAddWrapper,
+  } = useInputManagement(handleAdd);
 
   return (
-    <Background>
+    <Components.Background>
       <View style={styles.container}>
         <View style={styles.centering}>
-          <Text style={styles.title}>إضافة جزء من الجسم لليوم</Text>
-          <DropdownInput
+          <Text style={styles.title}>تحديد العضلة المستهدفة لهذا اليوم.</Text>
+          <Components.DropdownInput
             selectedValue={selectedValue}
             setModalVisible={setModalVisible}
             modalVisible={modalVisible}
             handleSelection={handleSelection}
           />
-          <CustomButtom
+          <Components.CustomButtom
             title="إضافة (Add)"
-            onPress={handleAddWrapper}
+            onPress={handleAddWrapper} // استخدام الدالة من الخطاف الجديد
             color="#f1dd00ff"
           />
-          <CustomButtom
+          <Components.CustomButtom
             title="حذف الكل (deleteAll)"
             onPress={handleEmpty}
             color="#f7361cff"
           />
         </View>
-        <Table data={table} handleDelete={handleDelete} />
+        <Components.Table data={table} handleDelete={handleDelete} />
       </View>
-    </Background>
+    </Components.Background>
   );
 }
 

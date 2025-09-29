@@ -3,10 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const STORAGE_KEY = "local-table-data";
 
-/**
- * جلب البيانات من AsyncStorage
- * @returns مصفوفة من TableEntry أو مصفوفة فارغة في حالة عدم العثور أو الخطأ
- */
 export async function getTableDataFromStorage(): Promise<TableEntry[]> {
   try {
     const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
@@ -18,10 +14,6 @@ export async function getTableDataFromStorage(): Promise<TableEntry[]> {
   }
 }
 
-/**
- * حفظ البيانات في AsyncStorage
- * @param data مصفوفة TableEntry لحفظها
- */
 export async function storeTableDataToStorage(
   data: TableEntry[]
 ): Promise<void> {
@@ -33,9 +25,6 @@ export async function storeTableDataToStorage(
   }
 }
 
-/**
- * مسح كل البيانات المخزنة للجدول
- */
 export async function clearTableDataFromStorage(): Promise<void> {
   try {
     await AsyncStorage.removeItem(STORAGE_KEY);
@@ -43,3 +32,4 @@ export async function clearTableDataFromStorage(): Promise<void> {
     console.error("Error clearing data from AsyncStorage:", e);
   }
 }
+// تذكر تعديل مسار الاستدعاء في useTableManagement
