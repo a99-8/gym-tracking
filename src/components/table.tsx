@@ -12,7 +12,6 @@ import {
 } from "react-native";
 
 const table = ({ data, handleDelete }: TableProps) => {
-  // 1. تصفية البيانات لإزالة أي قيم 'null' أو 'undefined' غير صالحة
   const filteredData = data.filter(
     (item) => item !== null && item !== undefined
   );
@@ -21,7 +20,7 @@ const table = ({ data, handleDelete }: TableProps) => {
   return (
     <View style={styles.tableContainer}>
       {/* the start of the Header */}
-      <Text style={styles.title}>إضافة جزء من الجسم لليوم</Text>
+      <Text style={styles.title}>جدول التمارين الأسبوعية </Text>
       <View style={styles.headerRow}>
         {headerNames.map((item, index) => (
           <Text key={index} style={[styles.headerCell, { flex: item.flex }]}>
@@ -35,13 +34,16 @@ const table = ({ data, handleDelete }: TableProps) => {
       <FlatList
         data={reversedData}
         scrollEnabled={true}
-        // 2. تم إصلاح keyExtractor لضمان عدم استدعاء toString() على قيمة null
-        // نستخدم الفهرس (index) كـ مفتاح احتياطي في حال كان item.id مفقودًا.
         keyExtractor={(item: TableEntry, index: number) =>
           item?.id ? item.id.toString() : index.toString()
         }
         renderItem={({ item }: { item: TableEntry }) => (
-          <View style={styles.dataRow}>
+          <View
+            style={[
+              styles.dataRow,
+              { backgroundColor: item.id % 2 === 0 ? "#ffffff" : "#f9f9f9" },
+            ]}
+          >
             <Text
               style={[styles.dataCell, { flex: 1 }]}
             >{`اليوم ${item.id}`}</Text>
@@ -70,55 +72,77 @@ const table = ({ data, handleDelete }: TableProps) => {
   );
 };
 
-// ... (بقية الـ styles كما هي)
 const styles = StyleSheet.create({
+  // ... الستايلات الأخرى
+
+  tableContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 10,
+    marginHorizontal: 15,
+    marginTop: 20,
+    marginBottom: 10,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 20,
     textAlign: "center",
+    marginBottom: 15,
+    color: "#333",
   },
+
   headerRow: {
     flexDirection: "row",
-    backgroundColor: "#f0f0f0",
-    borderBottomWidth: 1,
-    borderColor: "#ccc",
+    backgroundColor: "#f4f4f4",
     paddingVertical: 10,
+    borderRadius: 8,
+    marginBottom: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
   },
+
   headerCell: {
     fontWeight: "bold",
     textAlign: "center",
+    color: "#555",
+    fontSize: 14,
     paddingHorizontal: 5,
   },
-  tableContainer: {
-    marginTop: 30,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 5,
-    backgroundColor: "white",
-    flex: 1,
-  },
-  tablebody: {
-    paddingBottom: 100,
-  },
+
   dataRow: {
     flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderColor: "#eee",
-    paddingVertical: 10,
+    borderBottomColor: "#eee",
+    backgroundColor: "#ffffff",
   },
+
   dataCell: {
     textAlign: "center",
+    fontSize: 13,
+    color: "#444",
     paddingHorizontal: 5,
-    fontSize: 14,
   },
+
   deleteButton: {
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
+
   deleteButtonText: {
-    color: "red",
-    fontWeight: "bold",
     fontSize: 18,
   },
   emptyText: {

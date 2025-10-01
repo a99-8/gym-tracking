@@ -41,7 +41,9 @@
           "backgroundColor": "#ffffff",
           "hideStatusBar": true
         }
-      ]
+      ],
+      "expo-web-browser",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true,

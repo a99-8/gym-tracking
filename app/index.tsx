@@ -2,7 +2,7 @@ import * as Components from "@/src/components";
 import useInputManagement from "@/src/hooks/useInputManagement";
 import useTableManagement from "@/src/hooks/useTableManagement";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   const { table, handleAdd, handleDelete, handleEmpty } = useTableManagement();
@@ -17,28 +17,30 @@ export default function Index() {
 
   return (
     <Components.Background>
-      <View style={styles.container}>
-        <View style={styles.centering}>
-          <Text style={styles.title}>تحديد العضلة المستهدفة لهذا اليوم.</Text>
-          <Components.DropdownInput
-            selectedValue={selectedValue}
-            setModalVisible={setModalVisible}
-            modalVisible={modalVisible}
-            handleSelection={handleSelection}
-          />
-          <Components.CustomButtom
-            title="إضافة (Add)"
-            onPress={handleAddWrapper} // استخدام الدالة من الخطاف الجديد
-            color="#f1dd00ff"
-          />
-          <Components.CustomButtom
-            title="حذف الكل (deleteAll)"
-            onPress={handleEmpty}
-            color="#f7361cff"
-          />
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.centering}>
+            <Text style={styles.title}>تحديد العضلة المستهدفة لهذا اليوم.</Text>
+            <Components.DropdownInput
+              selectedValue={selectedValue}
+              setModalVisible={setModalVisible}
+              modalVisible={modalVisible}
+              handleSelection={handleSelection}
+            />
+            <Components.CustomButtom
+              title="إضافة"
+              onPress={handleAddWrapper}
+              color="#f1dd00ff"
+            />
+            <Components.CustomButtom
+              title="حذف الكل"
+              onPress={handleEmpty}
+              color="#f7361cff"
+            />
+          </View>
+          <Components.Table data={table} handleDelete={handleDelete} />
         </View>
-        <Components.Table data={table} handleDelete={handleDelete} />
-      </View>
+      </ScrollView>
     </Components.Background>
   );
 }

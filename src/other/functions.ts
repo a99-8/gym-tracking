@@ -4,7 +4,7 @@ const emptyTextAfter = (count: number) => {
   if (count === 0) {
     return "لا يوجد مدخلات بعد.";
   }
-  if (count < 5) {
+  if (count < counter) {
     return `سيتم إعادة ضبط القائمة بعد إضافة ${counter - count} عناصر.`;
   }
   return "سيتم إعادة ضبط القائمة بعد إضافة العنصر التالي.";

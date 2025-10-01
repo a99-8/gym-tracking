@@ -1,15 +1,16 @@
 import CustomButtomProps from "@/src/types/CustomButtomProps";
 import React from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const CustomButtom = ({ title, color, onPress }: CustomButtomProps) => {
   return (
-    <Pressable
+    <TouchableOpacity
       style={[styles.button, { backgroundColor: color }]}
       onPress={onPress}
+      activeOpacity={0.5}
     >
       <Text style={styles.text}>{title}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
