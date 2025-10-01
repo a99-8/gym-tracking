@@ -1,26 +1,50 @@
+// File: src/logic/handleAdd.ts
 import { counter } from "@/src/other/constants";
 import { formattedDate } from "@/src/other/functions";
+import { addNormalStatement, resetStatement } from "@/src/other/statements";
 import TableEntry from "@/src/types/tableEntry";
-import { Dispatch, SetStateAction } from "react";
 
-export const handleAddLogic = (
-  setTable: Dispatch<SetStateAction<TableEntry[]>>,
-  bodyPart: string
-) => {
-  setTable((prevTable) => {
-    if (prevTable.length === counter) {
-      const newEntry: TableEntry = {
-        id: 1,
-        bodyPart,
-        date: formattedDate(),
-      };
-      return [newEntry];
+// تم إضافة reloadData
+export const handleAddLogic = async (
+  db: any,
+  currentTableLength: number,
+  bodyPart: string,
+  reloadData: () => void
+): Promise<void> => {
+  let newId: number;
+
+  // 1. تحديد الـ ID الجديد أولاً
+  if (currentTableLength === counter) {
+    newId = 1;
+  } else {
+    newId = currentTableLength + 1;
+  }
+
+  const newEntry: TableEntry = {
+    id: newId,
+    bodyPart,
+    date: formattedDate(),
+  };
+
+  try {
+    if (currentTableLength === counter) {
+      await db.runAsync(resetStatement, []);
+      await db.runAsync(addNormalStatement, [
+        newEntry.id,
+        newEntry.bodyPart,
+        newEntry.date,
+      ]); // 2. إضافة العنصر الأول
+    } else {
+      // إضافة عادية
+      await db.runAsync(addNormalStatement, [
+        newEntry.id,
+        newEntry.bodyPart,
+        newEntry.date,
+      ]);
     }
-    const newEntry: TableEntry = {
-      id: prevTable.length + 1,
-      bodyPart,
-      date: formattedDate(),
-    };
-    return [...prevTable, newEntry];
-  });
+
+    reloadData(); // تحديث البيانات بعد عملية DB ناجحة
+  } catch (error) {
+    console.error("Failed to add entry:", error);
+  }
 };

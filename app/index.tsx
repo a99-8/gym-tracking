@@ -1,11 +1,13 @@
 import * as Components from "@/src/components";
 import useInputManagement from "@/src/hooks/useInputManagement";
 import useTableManagement from "@/src/hooks/useTableManagement";
+import styles from "@/src/styles/index.style";
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
-export default function Index() {
-  const { table, handleAdd, handleDelete, handleEmpty } = useTableManagement();
+const GymTrackerContent = () => {
+  const { table, isLoading, handleAdd, handleDelete, handleEmpty } =
+    useTableManagement();
 
   const {
     selectedValue,
@@ -13,11 +15,17 @@ export default function Index() {
     setModalVisible,
     handleSelection,
     handleAddWrapper,
-  } = useInputManagement(handleAdd);
+  } = useInputManagement(handleAdd, table.length);
 
-  return (
-    <Components.Background>
-      <ScrollView>
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  } else {
+    return (
+      <Components.Background>
         <View style={styles.container}>
           <View style={styles.centering}>
             <Text style={styles.title}>تحديد العضلة المستهدفة لهذا اليوم.</Text>
@@ -40,27 +48,15 @@ export default function Index() {
           </View>
           <Components.Table data={table} handleDelete={handleDelete} />
         </View>
-      </ScrollView>
-    </Components.Background>
+      </Components.Background>
+    );
+  }
+};
+
+export default function Index() {
+  return (
+    <Components.sqlMange>
+      <GymTrackerContent />
+    </Components.sqlMange>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 20,
-  },
-  centering: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
-    gap: 10,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-});

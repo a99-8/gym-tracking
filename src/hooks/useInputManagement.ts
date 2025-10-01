@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Alert } from "react-native";
 
-type HandleAddType = (bodyPart: string) => void;
+type HandleAddType = (bodyPart: string, currentTableLength: number) => void;
 
-export default function useInputManagement(handleAdd: HandleAddType) {
+export default function useInputManagement(
+  handleAdd: HandleAddType,
+  currentTableLength: number
+) {
   const [selectedValue, setSelectedValue] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -17,7 +20,7 @@ export default function useInputManagement(handleAdd: HandleAddType) {
       Alert.alert("تنبيه", "الرجاء اختيار جزء من الجسم أولاً.");
       return;
     }
-    handleAdd(selectedValue);
+    handleAdd(selectedValue, currentTableLength);
     setSelectedValue("");
   }
 

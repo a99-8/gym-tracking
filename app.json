@@ -35,16 +35,27 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/icons/splash-icon.png",
+          "image": "./assets/icons/splash-icon-light.png",
           "imageWidth": 100,
-          "resizeMode": "native",
           "backgroundColor": "#ffffff",
-          "hideStatusBar": true
+          "dark": {
+            "image": "./assets/icons/splash-icon-dark.png",
+            "backgroundColor": "#000000"
+          }
         }
       ],
       "expo-web-browser",
       "expo-sqlite"
     ],
+    "splash": {
+      "image": "./assets/icons/splash-icon-light.png",
+      "imageWidth": 100,
+      "backgroundColor": "#ffffff",
+      "dark": {
+        "image": "./assets/icons/splash-icon-dark.png",
+        "backgroundColor": "#000000"
+      }
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS gym (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date TEXT,
-    bodyPart TEXT
-);
-
-PRAGMA journal_mode = WAL;

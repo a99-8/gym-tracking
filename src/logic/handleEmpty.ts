@@ -1,22 +1,27 @@
-import { clearTableDataFromStorage } from "@/src/other/asyncStorage";
-import TableEntry from "@/src/types/tableEntry";
-import { Dispatch, SetStateAction } from "react";
+// File: src/logic/handleEmpty.ts
+import { resetStatement } from "@/src/other/statements";
 import { Alert, Platform } from "react-native";
 
-export const handleEmptyLogic = async (
-  setTable: Dispatch<SetStateAction<TableEntry[]>>
-) => {
+// تم إضافة reloadData
+export const handleEmptyLogic = async (db: any, reloadData: () => void) => {
+  const executeReset = async () => {
+    try {
+      // استخدام الدالة الموحدة لإعادة الضبط (مسح الجدول)
+      await db.runAsync(resetStatement, []);
+
+      reloadData(); // تحديث البيانات بعد عملية DB ناجحة
+    } catch (error) {
+      console.error("Failed to reset database:", error);
+    }
+  };
+
   if (Platform.OS === "web") {
-    setTable([]);
-    await clearTableDataFromStorage();
+    await executeReset();
   } else {
     Alert.alert("تنبيه", "هل أنت متأكد من مسح الجدول بالكامل؟", [
       {
         text: "نعم",
-        onPress: async () => {
-          setTable([]);
-          await clearTableDataFromStorage();
-        },
+        onPress: executeReset,
         style: "destructive",
       },
       {
